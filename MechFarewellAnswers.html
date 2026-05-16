@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mech Farewell 🎓</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #fff;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #f7971e, #ffd200, #f7971e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+  }
+
+  header p {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #aaa;
+    font-weight: 300;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .emoji-badge {
+    font-size: 2rem;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  .question-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffd200;
+    line-height: 1.4;
+  }
+
+  .answers-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .answers-list::-webkit-scrollbar { width: 4px; }
+  .answers-list::-webkit-scrollbar-track { background: transparent; }
+  .answers-list::-webkit-scrollbar-thumb { background: rgba(255,210,0,0.4); border-radius: 4px; }
+
+  .answer-chip {
+    background: rgba(255,255,255,0.08);
+    border-left: 3px solid;
+    border-radius: 0 10px 10px 0;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  /* Different accent colors per card */
+  .card:nth-child(1) .answer-chip { border-color: #f7971e; }
+  .card:nth-child(2) .answer-chip { border-color: #ee0979; }
+  .card:nth-child(3) .answer-chip { border-color: #00c6ff; }
+  .card:nth-child(4) .answer-chip { border-color: #7f00ff; }
+  .card:nth-child(5) .answer-chip { border-color: #00b09b; }
+  .card:nth-child(6) .answer-chip { border-color: #f953c6; }
+  .card:nth-child(7) .answer-chip { border-color: #43e97b; }
+  .card:nth-child(8) .answer-chip { border-color: #fa709a; }
+  .card:nth-child(9) .answer-chip { border-color: #4facfe; }
+  .card:nth-child(10) .answer-chip { border-color: #ffd200; }
+
+  .card:nth-child(1) .question-text { color: #f7971e; }
+  .card:nth-child(2) .question-text { color: #ee0979; }
+  .card:nth-child(3) .question-text { color: #00c6ff; }
+  .card:nth-child(4) .question-text { color: #b57bee; }
+  .card:nth-child(5) .question-text { color: #00b09b; }
+  .card:nth-child(6) .question-text { color: #f953c6; }
+  .card:nth-child(7) .question-text { color: #43e97b; }
+  .card:nth-child(8) .question-text { color: #fa709a; }
+  .card:nth-child(9) .question-text { color: #4facfe; }
+  .card:nth-child(10) .question-text { color: #ffd200; }
+
+  .count-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.72rem;
+    color: #bbb;
+    margin-bottom: 12px;
+  }
+
+  /* Crush card special full-width */
+  .card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .crush-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .crush-grid::-webkit-scrollbar { width: 4px; }
+  .crush-grid::-webkit-scrollbar-track { background: transparent; }
+  .crush-grid::-webkit-scrollbar-thumb { background: rgba(255,210,0,0.4); border-radius: 4px; }
+
+  .crush-pill {
+    background: rgba(255,100,150,0.15);
+    border: 1px solid rgba(255,100,150,0.35);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    color: #ffb3c6;
+    white-space: nowrap;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    color: #555;
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 Mech Farewell 2026</h1>
+  <p>118 responses · Anonymous confessions, memories & more</p>
+</header>
+
+<div class="grid">
+
+  <!-- Q1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">😏</div>
+      <div class="question-text">What pickup line would you use to flirt with a 10/10 fine shyt?</div>
+    </div>
+    <span class="count-badge">15 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">Are you a piece of art? Because I'd like to pin you against the wall 😏</li>
+      <li class="answer-chip">When I am with you I see two moons 🌕🌕</li>
+      <li class="answer-chip">I already have a boyfriend who's a fine shyt 😈</li>
+      <li class="answer-chip">Got a 10/10 fine shyt without a pickup line 😈</li>
+      <li class="answer-chip">Are you my attendance sheet? Because I keep checking you out.</li>
+      <li class="answer-chip">Hi sis! You look great today.</li>
+      <li class="answer-chip">Do you like horses? Coz that is what I like to ride 🐴</li>
+      <li class="answer-chip">World is a Devadul's class — I can't focus on anything if you stand near me.</li>
+      <li class="answer-chip">Can you be my regulator? Because I am your fan 🌀</li>
+      <li class="answer-chip">Can you plug my socket to experience your current? ⚡</li>
+      <li class="answer-chip">Lite 😌</li>
+      <li class="answer-chip">Ns</li>
+      <li class="answer-chip">Huh</li>
+      <li class="answer-chip">I</li>
+      <li class="answer-chip">I already have a bf who's a shyt 💁</li>
+    </ul>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🤯</div>
+      <div class="question-text">What is the craziest thing you have done in Insti?</div>
+    </div>
+    <span class="count-badge">6 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">Ganja ganja 🌿</li>
+      <li class="answer-chip">FAP for C Balaji 📝</li>
+      <li class="answer-chip">Got drunk and attended Wilkommen 🍻</li>
+      <li class="answer-chip">Eve 🌙</li>
+      <li class="answer-chip">Love with M.Tech Civil girl 💘</li>
+      <li class="answer-chip">. 🤫</li>
+    </ul>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🎭</div>
+      <div class="question-text">Name a fictional character that best resembles you</div>
+    </div>
+    <span class="count-badge">14 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">Suzhuka</li>
+      <li class="answer-chip">Doraemon 🤖</li>
+      <li class="answer-chip">Joker 🃏</li>
+      <li class="answer-chip">Raj from Big Bang Theory 🔭</li>
+      <li class="answer-chip">Rei Kiriyama ♟️</li>
+      <li class="answer-chip">Mahabharatha Karna – Atiratha Maharatha ⚔️</li>
+      <li class="answer-chip">Yukta</li>
+      <li class="answer-chip">Mehul Rathore</li>
+      <li class="answer-chip">You (×3) 😏</li>
+      <li class="answer-chip">Iop</li>
+      <li class="answer-chip">Qwerty</li>
+      <li class="answer-chip">Hhhhhhhhhhhhhhhhhh</li>
+    </ul>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">😈</div>
+      <div class="question-text">Which course caused your villain origin story?</div>
+    </div>
+    <span class="count-badge">12 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">ATE (×2) 💀</li>
+      <li class="answer-chip">PH1010 (×2) ⚛️</li>
+      <li class="answer-chip">Optimal Control 🤖</li>
+      <li class="answer-chip">KDOM</li>
+      <li class="answer-chip">HS Prof 😤</li>
+      <li class="answer-chip">Automation in Manufacturing 🏭</li>
+      <li class="answer-chip">V Babu Thermo — Unc absolutely humbled me 😭😭</li>
+      <li class="answer-chip">Introduction to Cryptography Maths 🔐</li>
+      <li class="answer-chip">Applied Thermodynamics 🔥</li>
+      <li class="answer-chip">Intercourse 💀</li>
+    </ul>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🤫</div>
+      <div class="question-text">What is one thing you did in college that you're glad your parents never found out about?</div>
+    </div>
+    <span class="count-badge">20 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">Drugs 💊</li>
+      <li class="answer-chip">Drink LIIT 🍹</li>
+      <li class="answer-chip">Dated 💑</li>
+      <li class="answer-chip">Drinking 🍺</li>
+      <li class="answer-chip">Alcohol 🥃</li>
+      <li class="answer-chip">Making out 😘</li>
+      <li class="answer-chip">Dress slutty 💃</li>
+      <li class="answer-chip">Going out with friends 🌙</li>
+      <li class="answer-chip">Smoking 🚬</li>
+      <li class="answer-chip">Kissing my bf 💋</li>
+      <li class="answer-chip">Missing an exam 😬</li>
+      <li class="answer-chip">Pulled all-nighters just talking! Joined Comet 😅 to find a partner.</li>
+      <li class="answer-chip">Each and every illegal stuff 🥰</li>
+      <li class="answer-chip">My love ❤️</li>
+      <li class="answer-chip">Played Clash Royale in classes 📱</li>
+      <li class="answer-chip">Ganja ganja 🌿</li>
+      <li class="answer-chip">Kissing 💋</li>
+      <li class="answer-chip">Slept with a girl in Insti 😶</li>
+      <li class="answer-chip">Kissing Kanupriya and dating her for 5 months – ongoing 😏</li>
+      <li class="answer-chip">Gh</li>
+    </ul>
+  </div>
+
+  <!-- Q6 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🕵️</div>
+      <div class="question-text">Unknown fact about you</div>
+    </div>
+    <span class="count-badge">9 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">I am secretly a PDF file 📄</li>
+      <li class="answer-chip">I have Zoro-level navigational skills 🗺️💀</li>
+      <li class="answer-chip">I love guys that are jacked and have a buzz cut 💪</li>
+      <li class="answer-chip">I'm athletic 🏃</li>
+      <li class="answer-chip">I don't know — it's unknown 🤷</li>
+      <li class="answer-chip">I am DR2 🤖</li>
+      <li class="answer-chip">Sexy 😎</li>
+      <li class="answer-chip">I love speaking with everyone and being with them for a whole day 🤝</li>
+      <li class="answer-chip">F</li>
+    </ul>
+  </div>
+
+  <!-- Q7 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🥹</div>
+      <div class="question-text">Which moment made you realize college is actually ending?</div>
+    </div>
+    <span class="count-badge">18 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">When the formal photoshoot happened 📸</li>
+      <li class="answer-chip">My closest friend changing cities 😢</li>
+      <li class="answer-chip">Endsem 📚</li>
+      <li class="answer-chip">Just now while filling this form 😳</li>
+      <li class="answer-chip">Mail from DR courses: "Your NSS credits are still pending" 🥲</li>
+      <li class="answer-chip">Mechanical Farewell 🎓</li>
+      <li class="answer-chip">When Akshay stopped yapping about his grades 😂</li>
+      <li class="answer-chip">Friends leaving for home 🏠</li>
+      <li class="answer-chip">Valentines 💝</li>
+      <li class="answer-chip">Endsemesters ending 📖</li>
+      <li class="answer-chip">After endsem ended ✅</li>
+      <li class="answer-chip">Email from IITMAA 📧</li>
+      <li class="answer-chip">1 year ago ⏳</li>
+      <li class="answer-chip">When I was sitting on top of NAC 🌆</li>
+      <li class="answer-chip">This farewell 😘😘</li>
+      <li class="answer-chip">Last exam 📝</li>
+      <li class="answer-chip">That realisation came as I cannot kiss my gf Kanupriya daily 💔</li>
+    </ul>
+  </div>
+
+  <!-- Q8 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🎬</div>
+      <div class="question-text">If your Insti life were a movie, what would it be titled?</div>
+    </div>
+    <span class="count-badge">12 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">SOOTHADI 🔥</li>
+      <li class="answer-chip">Dil Bechara 💔</li>
+      <li class="answer-chip">Welcome 🎉</li>
+      <li class="answer-chip">Btech Fail 😭</li>
+      <li class="answer-chip">Hi Nanna 🥺</li>
+      <li class="answer-chip">Husharey 🌙</li>
+      <li class="answer-chip">Shitheads 💀</li>
+      <li class="answer-chip">The Shawshank Redemption 🏛️</li>
+      <li class="answer-chip">Getting RGed by Jai Shakthi Velan 😤</li>
+      <li class="answer-chip">Devdas 🥃</li>
+      <li class="answer-chip">365 Days 📅</li>
+      <li class="answer-chip">Nostalgia 🌅</li>
+    </ul>
+  </div>
+
+  <!-- Q9 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="emoji-badge">🌟</div>
+      <div class="question-text">Which batchmate would make the best actor/actress?</div>
+    </div>
+    <span class="count-badge">12 responses</span>
+    <ul class="answers-list">
+      <li class="answer-chip">Khushi Rele 🌟 (×2)</li>
+      <li class="answer-chip">Purva Pratapwar FTW 💫</li>
+      <li class="answer-chip">Ajay 🎭</li>
+      <li class="answer-chip">Gay3 😂</li>
+      <li class="answer-chip">Vamshi 🎬</li>
+      <li class="answer-chip">Harshinni ✨</li>
+      <li class="answer-chip">Rishi Dalal 🎥</li>
+      <li class="answer-chip">Actor: Shabarish, Actress: Shabarish 😂</li>
+      <li class="answer-chip">Sayantika 🌸</li>
+      <li class="answer-chip">Somss</li>
+      <li class="answer-chip">Kanupriya – as Rose in Titanic 🚢</li>
+    </ul>
+  </div>
+
+  <!-- Q10 – Crush (full width) -->
+  <div class="card full-width">
+    <div class="card-header">
+      <div class="emoji-badge">💘</div>
+      <div class="question-text">Who is your dept crush? (It's anonymous, we don't know who you are 👀)</div>
+    </div>
+    <span class="count-badge">116 responses</span>
+    <div class="crush-grid">
+      <span class="crush-pill">Aishani (×2) 💕</span>
+      <span class="crush-pill">Deepmoy (×2) 😍</span>
+      <span class="crush-pill">Vivek (×2) 🌹</span>
+      <span class="crush-pill">CM / Chandramouli (×2) 💫</span>
+      <span class="crush-pill">Aldis (×2) ✨</span>
+      <span class="crush-pill">Ishita / Ishitia / Ishitaa (×4) 💖</span>
+      <span class="crush-pill">Shri Dharshan (×3) 🥰</span>
+      <span class="crush-pill">Koushikan / Kousikan (×3) 😳</span>
+      <span class="crush-pill">Purva (×2) 💝</span>
+      <span class="crush-pill">C Balaji Sir (×3) 😘</span>
+      <span class="crush-pill">Kanupriya (×4) 💋</span>
+      <span class="crush-pill">Bindu Priya (×2) 🌸</span>
+      <span class="crush-pill">Ananya (×2) 💗</span>
+      <span class="crush-pill">Sriram ME21 🎯</span>
+      <span class="crush-pill">Somashekar 🌟</span>
+      <span class="crush-pill">Durga 🌺</span>
+      <span class="crush-pill">Jeetu 😊</span>
+      <span class="crush-pill">Jitendra Bairwa 💐</span>
+      <span class="crush-pill">Yogesh 🌼</span>
+      <span class="crush-pill">Senior Chilukuri 🎓</span>
+      <span class="crush-pill">Ajay 💫</span>
+      <span class="crush-pill">Shifa 🌹</span>
+      <span class="crush-pill">Merry ❤️</span>
+      <span class="crush-pill">Ankitha 🌸</span>
+      <span class="crush-pill">Priya / Priya Garhwal 💕</span>
+      <span class="crush-pill">Nivedha (×2) 🌺</span>
+      <span class="crush-pill">Sneha 🌼</span>
+      <span class="crush-pill">Akshay 😏</span>
+      <span class="crush-pill">Rishi Dalal 🌟</span>
+      <span class="crush-pill">Rohan 💙</span>
+      <span class="crush-pill">Jai (Batch 1) 🎯</span>
+      <span class="crush-pill">Sathyan Subbiah 🌿</span>
+      <span class="crush-pill">Sayantika 🌸</span>
+      <span class="crush-pill">Namo 🌺</span>
+      <span class="crush-pill">Sunny ☀️</span>
+      <span class="crush-pill">Parag 🌼</span>
+      <span class="crush-pill">Nithin Mech 💪</span>
+      <span class="crush-pill">Venu (Batch 1) 🌟</span>
+      <span class="crush-pill">Anirudh 💙</span>
+      <span class="crush-pill">Vallabhaneni Pragna (×2) 💖</span>
+      <span class="crush-pill">Bhargavi / Bhargavi Jadhav (×2) 🌸</span>
+      <span class="crush-pill">Thrupthi 💕</span>
+      <span class="crush-pill">Saisivaram 😳</span>
+      <span class="crush-pill">Nirmal 😳</span>
+      <span class="crush-pill">Harshinni 💫</span>
+      <span class="crush-pill">Veeramurugan 🌺</span>
+      <span class="crush-pill">Kamalini Jethmalini 💘</span>
+      <span class="crush-pill">Vinamratha 🔥</span>
+      <span class="crush-pill">Urmica 💗</span>
+      <span class="crush-pill">Sheinidhi Kuppurajan 🎵</span>
+      <span class="crush-pill">Jahnavi Devineni 😍</span>
+      <span class="crush-pill">Anupindi 🌹</span>
+      <span class="crush-pill">Juniorrrr 🫣</span>
+      <span class="crush-pill">The AC — cooler than anyone 😂❄️</span>
+      <span class="crush-pill">Happiness 😊</span>
+      <span class="crush-pill">I am my own crush 💅</span>
+      <span class="crush-pill">I have a gf 😎</span>
+      <span class="crush-pill">I am gay for Jai Shakthivelan 🏳️‍🌈</span>
+      <span class="crush-pill">No one / Eww / Everyone ugly 💀</span>
+      <span class="crush-pill">Going to the Himalayas 🏔️</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Made with 💛 for Mech Batch 2026 · IITM · All responses anonymous</p>
+</footer>
+
+</body>
+</html>
+
